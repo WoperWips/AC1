@@ -1,0 +1,45 @@
+<div class="blog-container">
+  <h1> YouFace </h1>
+
+  @for (post of posts; track post.titulo) {
+    <div class="post-card">
+      <h2 class="post-title">{{ post.titulo }}</h2>
+      <div class="post-meta">
+        <span>Por: <strong>{{ post.autor }}</strong></span>
+        <span>Publicado em: <strong>{{ post.dataPublicacao | date: 'dd/MM/yyyy' }}</strong></span>
+      </div>
+      <p class="post-content">{{ post.conteudo }}</p>
+
+      <div class="post-actions">
+        <button (click)="curtirPost(post)" class="like-button" [title]="'Curtir o post: ' + post.titulo">
+          Curtir
+        </button>
+        <span class="likes-badge">{{ post.curtidas }} Curtida(s)</span>
+      </div>
+
+      <div class="comments-section">
+        <h4>Comentários</h4>
+        <ul class="comments-list">
+          @for (comentario of post.comentarios; track $index) {
+            <li>{{ comentario }}</li>
+          }
+          @if (post.comentarios.length === 0) {
+            <li class="no-comments">Seja o primeiro a comentar!</li>
+          }
+        </ul>
+        <div class="comment-form">
+          <input
+            type="text"
+            [(ngModel)]="post.novoComentario"
+            placeholder="Adicione um comentário..."
+            (keyup.enter)="adicionarComentario(post)"
+            class="comment-input"
+          />
+          <button (click)="adicionarComentario(post)" class="comment-button">
+            Comentar
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
